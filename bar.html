@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>oligei</title>
+</head>
+<body>
+    <ul id="content"></ul>
+    <script type="text/template" id="contentTemplate">
+        <!--each遍历json数组-->
+        {{#each this}}
+        <li>
+            {{this.firstName}} {{this.lastName}}
+        </li>
+        {{/each}}
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/handlebars@latest/dist/handlebars.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    <script>
+    (function($) {
+        var compiled = {};
+        $.fn.handlebars = function(template, data) {
+            if (template instanceof jQuery) {
+                template = $(template).html();
+            }
+            compiled[template] = Handlebars.compile(template);
+            this.html(compiled[template](data));
+        };
+    })(jQuery);
+
+    const arr = [
+        {
+            firstName: 'ding',
+            lastName: 'xiaodong'
+        },{
+            firstName: 'guan',
+            lastName: 'hongying'
+        }
+    ]
+
+    $('#content').handlebars($('#contentTemplate'), arr);
+    </script>
+</body>
+</html>
